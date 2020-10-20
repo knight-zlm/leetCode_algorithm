@@ -11,7 +11,16 @@ func dp(nums []int, left, right, total int) [][]int {
 		dif := nums[left] + nums[right] - total
 		if dif == 0 {
 			out = append(out, []int{nums[left], nums[right]})
+			// 去除重复的数据
+			for left < right && nums[left] == nums[left+1] {
+				left += 1
+			}
+			// 同理
+			for left < right && nums[right] == nums[left-1] {
+				right -= 1
+			}
 			left += 1
+			right -= 1
 		} else if dif > 0 {
 			right -= 1
 		} else {
