@@ -17,15 +17,33 @@ import (
 
 //
 
-//func dp(data []int) []int {
-//	if len(data) == 1 {
-//		return data
-//	}
-//	mid := (0 + len(data)) / 2
-//	left := dp(data[0:mid])
-//	right := dp(data[mid:])
-//	//合并
-//}
+func dp(data []int) []int {
+	if len(data) == 1 {
+		return data
+	}
+	mid := (0 + len(data)) / 2
+	left := dp(data[0:mid])
+	right := dp(data[mid:])
+	//合并
+	leftIndex := 0
+	rightIndex := 0
+	newList := make([]int, 0, len(left)+len(right))
+	for leftIndex < len(left) && rightIndex < len(right) {
+		if left[leftIndex] > right[rightIndex] {
+			newList = append(newList, right[rightIndex])
+			rightIndex++
+		} else {
+			newList = append(newList, left[leftIndex])
+			leftIndex++
+		}
+	}
+	if leftIndex != len(left) {
+		newList = append(newList, left[leftIndex:]...)
+	} else {
+		newList = append(newList, right[rightIndex:]...)
+	}
+	return newList
+}
 
 // 归并排序
 func MergeSort(data []int) {
@@ -48,6 +66,8 @@ func nextPermutation(nums []int) {
 }
 
 func main() {
+	data2 := dp([]int{1, 3, 6, 10, 4, 2, 5, 8, 7})
+	fmt.Println(data2)
 	data1 := []int{1, 3, 2}
 	nextPermutation(data1)
 	fmt.Println(data1)
