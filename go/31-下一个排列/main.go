@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
 /*
@@ -50,25 +49,50 @@ func MergeSort(data []int) {
 
 }
 
+func swap(nums []int, left, right int) {
+	temp := nums[left]
+	nums[left] = nums[right]
+	nums[right] = temp
+}
+
 func nextPermutation(nums []int) {
 	temp := nums[len(nums)-1]
-	for i := len(nums) - 2; i >= 0; i -= 1 {
-		if nums[i] > temp {
+	changeIndex := -1
+	for i := len(nums) - 1; i >= 0; i-- {
+		if nums[i] >= temp {
 			temp = nums[i]
 			continue
 		}
-		nums[i+1] = nums[i]
-		nums[i] = temp
-		return
+		temp = nums[i]
+		changeIndex = i
+		break
 	}
-	// 否则对数组进行排序
-	sort.Ints(nums)
+	// 证明不是从大到小
+	if changeIndex != -1 {
+		nextIndex := len(nums)
+		// 把找到的小于后面一个数的值和后面和它最接近的比它大一点的值交换位置
+		for i := changeIndex + 1; i < len(nums); i++ {
+			if nums[i] <= temp {
+				nextIndex = i
+				break
+			}
+		}
+		// 交换位置
+		swap(nums, changeIndex, nextIndex-1)
+	}
+	left := changeIndex + 1
+	right := len(nums) - 1
+	for left < right {
+		swap(nums, left, right)
+		left++
+		right--
+	}
 }
 
 func main() {
-	data2 := dp([]int{1, 3, 6, 10, 4, 2, 5, 8, 7})
-	fmt.Println(data2)
-	data1 := []int{1, 3, 2}
+	//data2 := dp([]int{1, 3, 6, 10, 4, 2, 5, 8, 7})
+	//fmt.Println(data2)
+	data1 := []int{1, 5, 1}
 	nextPermutation(data1)
 	fmt.Println(data1)
 }
