@@ -31,18 +31,23 @@ func dp(s string, deep int) {
 func longestValidParentheses2(s string) int {
 	maxLen := 0
 	dp := make([]int, 0, len(s))
+	dp = append(dp, -1)
 	for i := 0; i < len(s); i++ {
-		// 前面有没有左括号与之对应
-		if s[i] == ')' && i-1 >= 0 && i-dp[i-1]-1 >= 0 && s[i-dp[i-1]-1] == '(' {
-			before := 0
-			//需要看左括号前面是否有匹配的括号对
-			if i-dp[i-1]-2 >= 0 {
-				before = dp[i-dp[i-1]-2]
-			}
-			dp[i] = 2 + dp[i-1] + before
-			if maxLen < dp[i] {
-				maxLen = dp[i]
-			}
+		if s[i] == '(' {
+			dp = append(dp, i)
+			continue
+		}
+
+		// 先弹出一个元素
+		dp = dp[:len(dp)-1]
+		if len(dp) == 0 {
+			dp = append(dp, i)
+			continue
+		}
+		// 计算 这个左括号的最近一个右括号之间的距离
+		length := i - dp[len(dp)-1]
+		if maxLen < length {
+			maxLen = length
 		}
 	}
 	return maxLen
@@ -69,8 +74,8 @@ func longestValidParentheses(s string) int {
 }
 
 func main() {
-	max := longestValidParentheses("()(())")
+	max := longestValidParentheses(")()())")
 	fmt.Println(max)
-	max = longestValidParentheses(")()())")
+	max = longestValidParentheses2(")()())")
 	fmt.Println(max)
 }
