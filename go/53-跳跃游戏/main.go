@@ -20,7 +20,7 @@ import "fmt"
 func canJump(nums []int) bool {
 	reach := 0
 	n := len(nums)
-	for i := 0; i <= n; i++ {
+	for i := 0; i < n; i++ {
 		//我们当前的位置已经超过可到达的最大位置
 		if i > reach {
 			return false
