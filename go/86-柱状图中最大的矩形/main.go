@@ -55,6 +55,8 @@ func largestRectangleArea(heights []int) int {
 	return Max([]int{mRect, lRect, rRect})
 }
 
+//通过单调栈解决问题
+
 func main() {
 	data := []int{2, 0, 2}
 	fmt.Println(largestRectangleArea(data))
