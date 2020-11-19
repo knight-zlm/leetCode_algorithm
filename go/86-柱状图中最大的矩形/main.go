@@ -56,8 +56,43 @@ func largestRectangleArea(heights []int) int {
 }
 
 //通过单调栈解决问题
+func largestRectangleArea2(heights []int) int {
+	num := len(heights)
+	if num == 0 {
+		return 0
+	}
+	if num == 1 {
+		return heights[0]
+	}
+	//添加哨兵
+	newHeights := make([]int, 1, num+2)
+	newHeights[0] = 0
+	newHeights = append(newHeights, heights...)
+	newHeights = append(newHeights, 0)
+	rectArea := 0
+
+	// 需要栈保存最后一个数据
+	stack := make([]int, 1, num+2)
+	stack[0] = 0
+	for i := 1; i < len(newHeights); i++ {
+		// 需要一直弹出知道栈内元素小于外部元素
+		for newHeights[stack[len(stack)-1]] > newHeights[i] {
+			//弹出栈顶元素
+			topIndex := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			// 高乘长
+			curArea := newHeights[topIndex] * (i - stack[len(stack)-1] - 1)
+			if curArea > rectArea {
+				rectArea = curArea
+			}
+		}
+		stack = append(stack, i)
+	}
+
+	return rectArea
+}
 
 func main() {
-	data := []int{2, 0, 2}
-	fmt.Println(largestRectangleArea(data))
+	data := []int{2, 1, 5, 6, 2, 3}
+	fmt.Println(largestRectangleArea2(data))
 }
