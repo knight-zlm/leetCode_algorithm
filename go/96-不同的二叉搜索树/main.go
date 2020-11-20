@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 /**
 给定一个整数 n，求以 1 ... n 为节点组成的二叉搜索树有多少种？
 
@@ -21,7 +23,7 @@ func numTrees(n int) int {
 	G[0], G[1] = 1, 1
 	for i := 2; i <= n; i++ {
 		for j := 1; j <= i; j++ {
-			G[i] = G[j-1] * G[i-j]
+			G[i] += G[j-1] * G[i-j]
 		}
 	}
 
@@ -29,5 +31,5 @@ func numTrees(n int) int {
 }
 
 func main() {
-
+	fmt.Println(numTrees(3))
 }
