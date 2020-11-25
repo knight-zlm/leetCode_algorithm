@@ -19,20 +19,16 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-func dp(root *TreeNode, deep int) int {
-	if root == nil {
-		return deep
-	}
-	leftDeep := dp(root.Left, deep+1)
-	rightDeep := dp(root.Right, deep+1)
-	if leftDeep > rightDeep {
-		return leftDeep
-	}
-	return rightDeep
-}
-
 func maxDepth(root *TreeNode) int {
-	return dp(root, 0)
+	if root == nil {
+		return 0
+	}
+	leftDeep := maxDepth(root.Left)
+	rightDeep := maxDepth(root.Right)
+	if leftDeep > rightDeep {
+		return 1 + leftDeep
+	}
+	return 1 + rightDeep
 }
 
 func main() {
