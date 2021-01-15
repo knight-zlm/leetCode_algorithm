@@ -19,7 +19,7 @@ import "fmt"
 */
 func countBits(num int) []int {
 	ans := make([]int, 0, num)
-	for i := 0; i < num; i++ {
+	for i := 0; i <= num; i++ {
 		ans = append(ans, popCount(i))
 	}
 	return ans
